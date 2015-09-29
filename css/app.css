@@ -1,0 +1,18 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600|Lato:400,100,300);
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important; }
+
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400; }
+
+.main-center-element, #todoApp, header, footer {
+  width: 400px;
+  margin: 4em auto; }
+  @media screen and (max-width: 680px) {
+    .main-center-element, #todoApp, header, footer {
+      width: 90%; } }

@@ -1,0 +1,9 @@
+<section ng-controller="TodoController">
+  <ul class="task-list">
+    <task ng-repeat="task in tasks track by task.id" task='task'></task>
+  </ul>
+  <footer>
+    <task-form></task-form>
+    <h6>Tienes {{ pending_tasks().length }} pendientes</h6>
+  </footer>
+</section>

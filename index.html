@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Todo App Angular</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header>
+    <h1>Todo App with AngularJS</h1>
+  </header>
+
+  <section ng-app="TodoApp" id="todoApp" role="app">
+    <ng-include src="'./views/todo-app.html'" ng-cloak></ng-include>
+  </section>
+
+  <footer>
+    <h5>Desarrollada por Sergio Marin para <a href="https://www.escuelaweb.net">escuelaweb.net</a></h5>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
