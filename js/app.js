@@ -29182,7 +29182,7 @@ Object.defineProperty(exports, '__esModule', {
 exports['default'] = function (TodoStore) {
   return {
     restrict: 'E',
-    templateUrl: '../views/task-form.html',
+    templateUrl: './views/task-form.html',
     link: function link(scope, element, attrs) {
 
       scope.submit = function (form) {
@@ -29214,7 +29214,7 @@ exports['default'] = function () {
     scope: {
       task: '=task'
     },
-    templateUrl: '../views/task.html',
+    templateUrl: './views/task.html',
     link: function link(scope, element, attrs) {}
   };
 };
