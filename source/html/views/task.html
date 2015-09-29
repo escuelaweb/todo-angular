@@ -1,3 +1,13 @@
 <li class="task">
-  {{ task.title }}
+
+  <input id="{{toggleID()}}"
+         class="task-status-toggle"
+         type="checkbox"
+         ng-change="markDone()"
+         ng-model="task.done"/>
+  <label for="{{toggleID()}}"></label>
+  <span class="task-title">
+    {{ task.title }}
+  </span>
+  <button class="task-remove" ng-click="removeTask()" >&times;</button>
 </li>

@@ -25,24 +25,24 @@ services.factory('TodoStore', ($rootScope) => {
       return this.tasks
     },
     update(task, newTask) {
-      let oldTask = findTask(task)
-      return Object.assign(oldTask, newTask)
+      let taskindex = findTaskIndex(task)
+      let result = Object.assign(this.tasks[taskindex], newTask)
+      $rootScope.$broadcast('todo-change')
+      return result
     },
     toggleStatus(task) {
-      let oldtask = findTask(task)
-      let toggledStatus = (oldtask.done === TodoStore.DONE) ? TodoStore.UNDONE : TodoStore.DONE
-      Object.assign(oldtask, {done: toggledStatus})
+      let taskindex = findTaskIndex(task)
+      this.tasks[taskindex].status = !this.tasks[taskindex].status
       $rootScope.$broadcast('todo-change')
-      return oldtask
+      return this.tasks[taskindex]
     },
     get(taskIndex) {
       return this.tasks[taskID]
     },
     getAll(sort = 'default') {
-      this.tasks = this.tasks.sort(function(a,b) {
+      return this.tasks.sort(function(a,b) {
         return a.done - b.done
-      }).slice(0)
-      return this.tasks
+      })
     },
     UNDONE: false,
     DONE: true,
@@ -52,7 +52,7 @@ services.factory('TodoStore', ($rootScope) => {
   function setLocal() {
     $rootScope.$on('todo-change', function(e) {
       console.log('Register one change on TodoStore')
-      window.localStorage.setItem('tasks', JSON.stringify(TodoStore.getAll()))
+      window.localStorage.setItem('tasks', JSON.stringify(TodoStore.tasks))
     })
   }
 
