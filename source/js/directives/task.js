@@ -5,7 +5,7 @@ export default function() {
     scope: {
       task: '=task'
     },
-    templateUrl: '../views/task.html',
+    templateUrl: './views/task.html',
     link(scope, element, attrs) {
 
     },
