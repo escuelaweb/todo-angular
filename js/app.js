@@ -29132,13 +29132,12 @@ controllers.run(function () {
 });
 
 controllers.controller('TodoController', function ($scope, TodoStore) {
-  $scope.tasks = TodoStore.getAll();
+  $scope.tasks = TodoStore.tasks;
   $scope.pending_tasks = function () {
     return $scope.tasks.filter(function (task) {
       return task.done === false;
     });
   };
-
   TodoStore.onChange(function () {
     $scope.tasks = TodoStore.tasks;
   });
@@ -29215,7 +29214,17 @@ exports['default'] = function () {
       task: '=task'
     },
     templateUrl: './views/task.html',
-    link: function link(scope, element, attrs) {}
+    link: function link(scope, element, attrs) {
+      scope.toggleID = function () {
+        return 'toggle-' + scope.task.id;
+      };
+      scope.markDone = function () {
+        scope.task = TodoStore.toggleStatus(scope.task);
+      };
+      scope.removeTask = function () {
+        TodoStore.remove(scope.task);
+      };
+    }
   };
 };
 
@@ -29262,15 +29271,16 @@ services.factory('TodoStore', function ($rootScope) {
       return this.tasks;
     },
     update: function update(task, newTask) {
-      var oldTask = findTask(task);
-      return Object.assign(oldTask, newTask);
+      var taskindex = findTaskIndex(task);
+      var result = Object.assign(this.tasks[taskindex], newTask);
+      $rootScope.$broadcast('todo-change');
+      return result;
     },
     toggleStatus: function toggleStatus(task) {
-      var oldtask = findTask(task);
-      var toggledStatus = oldtask.done === TodoStore.DONE ? TodoStore.UNDONE : TodoStore.DONE;
-      Object.assign(oldtask, { done: toggledStatus });
+      var taskindex = findTaskIndex(task);
+      this.tasks[taskindex].status = !this.tasks[taskindex].status;
       $rootScope.$broadcast('todo-change');
-      return oldtask;
+      return this.tasks[taskindex];
     },
     get: function get(taskIndex) {
       return this.tasks[taskID];
@@ -29278,10 +29288,9 @@ services.factory('TodoStore', function ($rootScope) {
     getAll: function getAll() {
       var sort = arguments.length <= 0 || arguments[0] === undefined ? 'default' : arguments[0];
 
-      this.tasks = this.tasks.sort(function (a, b) {
+      return this.tasks.sort(function (a, b) {
         return a.done - b.done;
-      }).slice(0);
-      return this.tasks;
+      });
     },
     UNDONE: false,
     DONE: true,
@@ -29291,7 +29300,7 @@ services.factory('TodoStore', function ($rootScope) {
   function setLocal() {
     $rootScope.$on('todo-change', function (e) {
       console.log('Register one change on TodoStore');
-      window.localStorage.setItem('tasks', JSON.stringify(TodoStore.getAll()));
+      window.localStorage.setItem('tasks', JSON.stringify(TodoStore.tasks));
     });
   }
 
