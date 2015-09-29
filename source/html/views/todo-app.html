@@ -1,6 +1,6 @@
 <section ng-controller="TodoController">
   <ul class="task-list">
-    <task ng-repeat="task in tasks track by task.id" task='task'></task>
+    <task ng-repeat="task in tasks | orderBy:'done':false track by task.id " task='task'></task>
   </ul>
   <footer>
     <task-form></task-form>
