@@ -6,16 +6,6 @@ controllers.run(() => {
   console.log('Running Controllers module')
 })
 
-controllers.controller('TodoController', ($scope, TodoStore) => {
-  $scope.tasks = TodoStore.tasks
-  $scope.pending_tasks = () => {
-    return $scope.tasks.filter((task) => {
-      return task.done === false
-    })
-  }
-  TodoStore.onChange(() => {
-    $scope.tasks = TodoStore.tasks
-  })
-})
+controllers.controller('TodoController', require('./main'))
 
 export default controllers;
